@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name">Abs Application</string>
+
+    <string name="login_message">Login</string>
+    <string name="login_color_valid">#00cc44</string>
+    <string name="login_invalid_account">Your email or password was incorrect and the login failed</string>
+    <string name="login_invalid_email">Incorrect login information</string>
+    <string name="login_reset_message">Send Password Reset Email</string>
+    <string name="login_retry_message">Retry</string>
+
+    <string name="register_hint_email_default"> email</string>
+    <string name="register_hint_password_default"> password</string>
+    <string name="register_hint_password_again_default">password again</string>
+
+    <string name="register_message_noemail">Enter your email</string>
+    <string name="register_message_invalidemail">Enter a valid email</string>
+    <string name="register_message_nopassword">Enter your password</string>
+    <string name="register_message_nopasswordagain">Re-enter your password</string>
+    <string name="register_message_passwordsdifferent">Your passwords do not match</string>
+    <string name="register_message_allgood">Register!</string>
+
+    <string name="register_color_valid">#00cc44</string>
+    <string name="register_color_invalid">#888888</string>
+
+    <string name="register_message_taken">This email is taken</string>
+
+    <string name="register_popup_invalid">Your registration information is invalid or incomplete.</string>
+    <string name="register_popup_pending">Creating your account...</string>
+    <string name="register_popup_ok">OK</string>
+    <string name="title_activity_test__workout_view">Test_WorkoutView</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="exercise_name"></string>
+    <string name="exercise_weight"></string>
+    <string name="exercise_reps"></string>
+
+
+    <string name="title_activity_splash_screen2">SplashScreen2</string>
+    <string name="navigation_home">Home</string>
+    <string name="navigation_workout">Workout</string>
+    <string name="navigation_macros">Macros</string>
+    <string name="navigation_statistics">Statistics</string>
+</resources>
