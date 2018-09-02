@@ -44,6 +44,7 @@ public abstract class POSTer extends AsyncTask<RequestData, Void, JSONObject> {
                 URL reg = new URL(url);
                 HttpURLConnection connection = (HttpURLConnection) reg.openConnection();
                 connection.setRequestMethod("POST");
+                connection.setConnectTimeout(5000);
                 connection.setDoInput(true);
                 log = log + "Created a urlConnection\n";
 

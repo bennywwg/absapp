@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-
 public class HomeFragment extends Fragment {
 
     private Button logout_button;
@@ -26,9 +25,6 @@ public class HomeFragment extends Fragment {
         return parent;
     }
 
-
-
-
     private void assignVariables() {
         logout_button = (Button) parent.findViewById(R.id.logout_button);
     }
@@ -40,18 +36,10 @@ public class HomeFragment extends Fragment {
                 logout();
             }
         });
-
-
     }
 
     public void logout(){
-        Util.writeToFile("login.txt", "", this.getContext());
+        Util.deleteUserCredentials(getContext());
         Util.pageSwap(this.getActivity(), SplashScreen.class);
     }
-
-
-
-
-
-
 }

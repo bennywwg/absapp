@@ -26,9 +26,6 @@ public class SplashScreen2 extends FragmentActivity {
     private FragmentManager manager;
     Fragment frag = null;
 
-    public String email;
-    public String passwordEmailHash;
-
     public WorkoutDay workout = null;
 
 
@@ -66,17 +63,6 @@ public class SplashScreen2 extends FragmentActivity {
                 workout = new WorkoutDay(unparsedWorkout);
             } catch (Exception ignored) {
                 workout = null;
-            }
-        }
-
-        String loginInfo = Util.readFromFile("login.txt", getBaseContext());
-        if(!loginInfo.isEmpty()) {
-            String[] parts = loginInfo.split(" ");
-            if(parts.length == 2) {
-                email = parts[0];
-                passwordEmailHash = parts[1];
-                Util.userEmail = email;
-                Util.userPasswordEmailHash = passwordEmailHash;
             }
         }
     }

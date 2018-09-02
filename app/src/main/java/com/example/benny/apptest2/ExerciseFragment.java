@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -240,9 +241,10 @@ public class ExerciseFragment extends Fragment {
                     RequestData data = new RequestData();
                     data.url = Util.calibrationConnection;
                     JSONObject obj = new JSONObject();
+                    Pair<String, String> credentials = Util.getUserCredentials(getContext());
                     try {
-                        obj.put("email", Util.userEmail);
-                        obj.put("passwordEmailHash", Util.userPasswordEmailHash);
+                        obj.put("email", credentials.first);
+                        obj.put("passwordEmailHash", credentials.second);
                         obj.put("exercise", item.exercise.name);
                         obj.put("reps", item.exercise.calibrationReps);
                         obj.put("weight", item.exercise.calibrationWeight);

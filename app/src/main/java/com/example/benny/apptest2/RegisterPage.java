@@ -2,6 +2,7 @@ package com.example.benny.apptest2;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
@@ -111,12 +112,14 @@ public class RegisterPage extends AppCompatActivity {
 
             String email = getEmail();
             String password = getPassword();
-            String hashedPassword = Util.hash(password + email);
+            String passwordEmailHash = Util.hash(password + email);
 
-            data.message = "{\"email\":\"" + email + "\", \"passwordEmailHash\":\"" + hashedPassword + "\"}";
+            data.message = "{\"email\":\"" + email + "\", \"passwordEmailHash\":\"" + passwordEmailHash + "\"}";
 
             RegisterPoster p = new RegisterPoster();
             p.owner = this;
+            p.emailToSet = email;
+            p.passwordEmailHashToSet = passwordEmailHash;
             p.execute(data);
         } else {
             invalidPopup().show();
@@ -162,6 +165,8 @@ public class RegisterPage extends AppCompatActivity {
 
     class RegisterPoster extends POSTer {
         public RegisterPage owner;
+        public String emailToSet;
+        public String passwordEmailHashToSet;
 
         @Override
         protected void onFinish() {
@@ -173,12 +178,32 @@ public class RegisterPage extends AppCompatActivity {
                 public void run() {
                     if(jsonGood()) {
                         try {
-                            owner.info(response.getString("message")).show();
+                            if(response.getBoolean("good")) {
+                                Dialog d = owner.info(response.getString("message"));
+                                d.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                    @Override
+                                    public void onDismiss(DialogInterface dialogInterface) {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Util.setUserCredentials(emailToSet, passwordEmailHashToSet, getBaseContext());
+                                                Util.pageSwap(owner, SplashScreen2.class);
+                                                owner.finish();
+                                            }
+                                        });
+                                    }
+                                });
+                                d.show();
+
+                            } else {
+                                throw new Exception();
+                            }
                         } catch (Exception ex) {
                             owner.info("Couldn't Create Account").show();
                         }
                     } else {
                         owner.info("Couldn't Create Account").show();
+                        Util.deleteUserCredentials(getBaseContext());
                     }
                 }
             });

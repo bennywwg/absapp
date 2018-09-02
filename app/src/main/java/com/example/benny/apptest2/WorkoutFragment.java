@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -137,8 +138,10 @@ public class WorkoutFragment extends Fragment {
 
         RequestData request = new RequestData();
 
-        request.message = "{\"email\":\"" + splashScreen.email + "\"," +
-        "\"passwordEmailHash\":\"" + splashScreen.passwordEmailHash + "\"," +
+        Pair<String, String> credentials = Util.getUserCredentials(getContext());
+
+        request.message = "{\"email\":\"" + credentials.first + "\"," +
+        "\"passwordEmailHash\":\"" + credentials.second + "\"," +
         "\"numItems\":" + numItems + "}";
         request.url = Util.exerciseConnection;
 

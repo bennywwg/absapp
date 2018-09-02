@@ -54,11 +54,11 @@ public class LoginPage extends AppCompatActivity {
                 LoginPoster poster = new LoginPoster();
                 poster.owner = LoginPage.this;
                 poster.emailToSet = getEmail();
-                poster.passwordToSet = getPassword();
+                poster.passwordEmailHashToSet = Util.hash(getPassword() + getEmail());
 
                 RequestData data = new RequestData();
                 data.url = Util.loginConnection;
-                data.message = "{\"email\":\"" + getEmail() + "\",\"passwordEmailHash\":\"" + Util.hash(getPassword() + getEmail()) + "\"}";
+                data.message = "{\"email\":\"" + poster.emailToSet + "\",\"passwordEmailHash\":\"" + poster.passwordEmailHashToSet + "\"}";
 
                 poster.execute(data);
             }
@@ -92,7 +92,7 @@ public class LoginPage extends AppCompatActivity {
 
     class LoginPoster extends POSTer {
         public LoginPage owner;
-        public String emailToSet, passwordToSet;
+        public String emailToSet, passwordEmailHashToSet;
 
         @Override
         protected void onFinish() {
@@ -105,9 +105,9 @@ public class LoginPage extends AppCompatActivity {
                 if(jsonGood()) {
                     try {
                         if(response.getBoolean("good")) {
-                            Util.writeToFile("login.txt", emailToSet + " " + Util.hash(passwordToSet + emailToSet), owner.getBaseContext());
+                            Util.setUserCredentials(emailToSet, passwordEmailHashToSet, getBaseContext());
                             Util.pageSwap(owner, SplashScreen2.class);
-                            LoginPage.this.finish();
+                            owner.finish();
                         }
                     } catch (Exception ex) {
                         owner.info("Couldn't Login").show();

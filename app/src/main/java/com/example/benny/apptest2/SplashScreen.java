@@ -3,6 +3,7 @@ package com.example.benny.apptest2;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -65,20 +66,17 @@ public class SplashScreen extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        String loginInfo = Util.readFromFile("login.txt", getBaseContext());
+        Pair<String, String> userCredentials = Util.getUserCredentials(getBaseContext());
 
-        if(loginInfo.length() != 0) {
-            String[] parts = loginInfo.split(" ");
-            if(parts.length == 2) {
-                LoginPoster poster = new LoginPoster();
-                poster.owner = SplashScreen.this;
+        if(userCredentials != null) {
+            LoginPoster poster = new LoginPoster();
+            poster.owner = SplashScreen.this;
 
-                RequestData data = new RequestData();
-                data.url = Util.loginConnection;
-                data.message = "{\"email\":\"" + parts[0] + "\",\"passwordEmailHash\":\"" + parts[1] + "\"}";
+            RequestData data = new RequestData();
+            data.url = Util.loginConnection;
+            data.message = "{\"email\":\"" + userCredentials.first + "\",\"passwordEmailHash\":\"" + userCredentials.second + "\"}";
 
-                poster.execute(data);
-            }
+            poster.execute(data);
         }
     }
 

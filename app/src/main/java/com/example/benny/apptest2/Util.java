@@ -5,12 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Base64;
+import android.util.Pair;
 
 import org.json.JSONObject;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,8 +35,8 @@ import java.util.Random;
  */
 
 public class Util {
-    //public static final String baseConnection = "http://vps186949.vps.ovh.ca:8080";
-    public static final String baseConnection = "http://10.0.2.2:8080";
+    public static final String baseConnection = "http://vps186949.vps.ovh.ca:8080";
+    //public static final String baseConnection = "http://10.0.2.2:8080";
     public static final String registerConnection = baseConnection + "/register";
     public static final String loginConnection = baseConnection + "/login";
     public static final String exerciseConnection = baseConnection + "/exercise-info";
@@ -82,8 +84,48 @@ public class Util {
         return ret;
     }
 
-    public static String userEmail;
-    public static String userPasswordEmailHash;
+
+
+
+    private static String userEmail = null;
+    private static String userPasswordEmailHash = null;
+    private static final String credentialsFilepath = "login.txt";
+
+    public static void deleteUserCredentials(Context ctx) {
+        try {
+            userEmail = null;
+            userPasswordEmailHash = null;
+            ctx.deleteFile(credentialsFilepath);
+        } catch (Exception ignored) { }
+    }
+    public static void setUserCredentials(String userEmail, String userPasswordEmailHash, Context ctx) {
+        Util.userEmail = userEmail;
+        Util.userPasswordEmailHash = userPasswordEmailHash;
+        writeToFile(credentialsFilepath, userEmail + " " + userPasswordEmailHash, ctx);
+    }
+    public static Pair<String, String> getUserCredentials(Context ctx) {
+        if(userEmail == null || userPasswordEmailHash == null) {
+            boolean good = true;
+            String loadedCredentials = Util.readFromFile(credentialsFilepath, ctx);
+            if(!loadedCredentials.isEmpty()) {
+                String[] parts = loadedCredentials.split(" ");
+                if(parts.length == 2) {
+                    Util.userEmail = parts[0];
+                    Util.userPasswordEmailHash = parts[1];
+                } else {
+                    good = false;
+                }
+            } else {
+                good = false;
+            }
+            if(!good) {
+                userEmail = null;
+                userPasswordEmailHash = null;
+                return null;
+            }
+        }
+        return new Pair(userEmail, userPasswordEmailHash);
+    }
 
     //public static String getCurrentUserEmail() {
     //
