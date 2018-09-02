@@ -63,7 +63,7 @@ public class WorkoutDay {
             for(int i = 0; i < sets.size(); i++) {
                 setsArray.put(sets.get(i).toJSON());
             }
-            res.put("sets", sets);
+            res.put("sets", setsArray);
 
             return res;
         }

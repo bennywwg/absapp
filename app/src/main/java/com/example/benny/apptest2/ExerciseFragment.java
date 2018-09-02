@@ -298,13 +298,7 @@ public class ExerciseFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 item.difficulty = WorkoutDay.WorkoutItem.TOOHARD;
-
-                RequestData data = new RequestData();
-                data.url = Util.feedbackConnection;
-                try {
-                    data.message = item.toJSON().toString();
-                } catch (Exception ex) { }
-                POSTer p = new FeedbackPoster();
+                sendFeedback();
             }
         });
         justRightButton = parent.findViewById(R.id.rest_view_justright);
@@ -312,6 +306,7 @@ public class ExerciseFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 item.difficulty = WorkoutDay.WorkoutItem.JUSTRIGHT;
+                sendFeedback();
             }
         });
         tooEasyButton = parent.findViewById(R.id.rest_view_tooeasy);
@@ -319,8 +314,19 @@ public class ExerciseFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 item.difficulty = WorkoutDay.WorkoutItem.TOOEASY;
+                sendFeedback();
             }
         });
+    }
+
+    private void sendFeedback() {
+        RequestData data = new RequestData();
+        data.url = Util.feedbackConnection;
+        try {
+            data.message = item.toJSON().toString();
+        } catch (Exception ex) { }
+        POSTer p = new FeedbackPoster();
+        p.execute(data);
     }
 
     @Override
