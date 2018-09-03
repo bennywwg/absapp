@@ -323,7 +323,11 @@ public class ExerciseFragment extends Fragment {
         RequestData data = new RequestData();
         data.url = Util.feedbackConnection;
         try {
-            data.message = item.toJSON().toString();
+            JSONObject response = new JSONObject();
+            response.put("email", Util.getUserCredentials(getContext()).first);
+            response.put("passwordEmailHash", Util.getUserCredentials(getContext()).second);
+            response.put("feedback", item.toJSON());
+            data.message = response.toString();
         } catch (Exception ex) { }
         POSTer p = new FeedbackPoster();
         p.execute(data);

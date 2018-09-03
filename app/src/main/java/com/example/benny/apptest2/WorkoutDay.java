@@ -112,6 +112,7 @@ public class WorkoutDay {
     }
 
     public static class WorkoutSet {
+        public final String uuid;
         public final int reps;
         public final int percent1RM;
         public final int restTime;
@@ -121,15 +122,17 @@ public class WorkoutDay {
 
         public JSONObject toJSON() throws JSONException {
             JSONObject res = new JSONObject();
+            res.put("uuid", uuid);
             res.put("reps", reps);
             res.put("percent1RM", percent1RM);
-            res.put("restTime", restTime);
+            res.put("restTimeSeconds", restTime);
             res.put("doneWithRest", doneWithRest);
             res.put("repsCompleted", repsCompleted);
 
             return res;
         }
         public WorkoutSet(JSONObject json) throws JSONException {
+            uuid = json.getString("uuid");
             reps = json.getInt("reps");
             percent1RM = json.getInt("percent1RM");
             restTime = json.getInt("restTimeSeconds");
