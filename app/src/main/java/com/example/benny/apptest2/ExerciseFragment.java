@@ -1,6 +1,7 @@
 package com.example.benny.apptest2;
 
 import android.app.DownloadManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
@@ -70,6 +71,7 @@ public class ExerciseFragment extends Fragment {
             WorkoutDay.WorkoutSet currentSet = getCurrentSet();
             if(currentSet == null) {
                 switchToCompletedView();
+                renderCurrentComplete();
             } else {
                 if(currentSet.restStarted != null) {
                     switchToRestView();
@@ -83,7 +85,7 @@ public class ExerciseFragment extends Fragment {
     }
 
     private boolean calibrationComplete() {
-        return !(item.exercise.user1RM <= 0);
+        return !(item.onerepmax <= 0);
     }
     private boolean hasBeenCalibrated() {
         return item.exercise.hasBeenCalibrated;
@@ -139,6 +141,11 @@ public class ExerciseFragment extends Fragment {
             }
         }
     }
+    private void renderCurrentComplete(){
+        tooEasyButton.setBackgroundColor((item.difficulty == 3) ? (Color.parseColor("#88ff88")) : (Color.parseColor("#888888")));
+        justRightButton.setBackgroundColor((item.difficulty == 2) ? (Color.parseColor("#88ff88")) : (Color.parseColor("#888888")));
+        tooHardButton.setBackgroundColor((item.difficulty == 1) ? (Color.parseColor("#88ff88")) : (Color.parseColor("#888888")));
+    }
 
     private void switchToCalibrationView() {
         calibrationViewContainer.setVisibility(View.VISIBLE);
@@ -166,7 +173,7 @@ public class ExerciseFragment extends Fragment {
     }
 
     private int calculateWeightForCurrentSet() {
-        return Util.roundNearestFive((int)(getCurrentSet().percent1RM * item.exercise.user1RM * 0.01));
+        return Util.roundNearestFive((int)(getCurrentSet().percent1RM * item.onerepmax * 0.01));
     }
 
 
@@ -299,6 +306,12 @@ public class ExerciseFragment extends Fragment {
             public void onClick(View view) {
                 item.difficulty = WorkoutDay.WorkoutItem.TOOHARD;
                 sendFeedback();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        renderCurrentComplete();
+                    }
+                });
             }
         });
         justRightButton = parent.findViewById(R.id.rest_view_justright);
@@ -307,6 +320,12 @@ public class ExerciseFragment extends Fragment {
             public void onClick(View view) {
                 item.difficulty = WorkoutDay.WorkoutItem.JUSTRIGHT;
                 sendFeedback();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        renderCurrentComplete();
+                    }
+                });
             }
         });
         tooEasyButton = parent.findViewById(R.id.rest_view_tooeasy);
@@ -315,6 +334,12 @@ public class ExerciseFragment extends Fragment {
             public void onClick(View view) {
                 item.difficulty = WorkoutDay.WorkoutItem.TOOEASY;
                 sendFeedback();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        renderCurrentComplete();
+                    }
+                });
             }
         });
     }
@@ -424,7 +449,7 @@ public class ExerciseFragment extends Fragment {
                 @Override
                 public void run() {
                     try {
-                        owner.item.exercise.user1RM = (float)response.getDouble("oneRepMax");
+                        owner.item.onerepmax = (float)response.getDouble("oneRepMax");
                     } catch (Exception ex) { }
                     owner.restViewSpinner.setVisibility(View.INVISIBLE);
                     owner.setCorrectView();

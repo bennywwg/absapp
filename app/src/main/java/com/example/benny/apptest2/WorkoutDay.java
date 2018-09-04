@@ -52,12 +52,14 @@ public class WorkoutDay {
         public final ArrayList<WorkoutSet> sets = new ArrayList<>();
 
         public int difficulty;
+        public double onerepmax;
 
         public JSONObject toJSON() throws JSONException {
             JSONObject res = new JSONObject();
             res.put("uuid", uuid);
             res.put("exercise", exercise.toJSON());
             res.put("difficulty", difficulty);
+            res.put("onerepmax", onerepmax);
 
             JSONArray setsArray = new JSONArray();
             for(int i = 0; i < sets.size(); i++) {
@@ -72,6 +74,7 @@ public class WorkoutDay {
             exercise = new Exercise(json.getJSONObject("exercise"));
             difficulty = json.getInt("difficulty");
             JSONArray setsArray = json.getJSONArray("sets");
+            onerepmax = json.getDouble("onerepmax");
             for(int i = 0; i < setsArray.length(); i++){
                 sets.add(new WorkoutSet(setsArray.getJSONObject(i)));
             }
@@ -81,7 +84,6 @@ public class WorkoutDay {
     public static class Exercise {
         public final String name;
         public final String video;
-        public double user1RM;
         public final int recommendedCalibrationWeight;
         public int calibrationWeight;
         public int calibrationReps;
@@ -91,7 +93,6 @@ public class WorkoutDay {
             JSONObject res = new JSONObject();
             res.put("name", name);
             res.put("video", video);
-            res.put("user1RM", user1RM);
             res.put("recommendedCalibrationWeight", recommendedCalibrationWeight);
             res.put("calibrationWeight", calibrationWeight);
             res.put("calibrationReps", calibrationReps);
@@ -102,7 +103,6 @@ public class WorkoutDay {
         public Exercise(JSONObject json) throws JSONException {
             name = json.getString("name");
             video = json.getString("video");
-            user1RM = json.getDouble("user1RM");
             recommendedCalibrationWeight = json.getInt("recommendedCalibrationWeight");
             calibrationWeight = json.getInt("calibrationWeight");
             calibrationReps = json.getInt("calibrationReps");

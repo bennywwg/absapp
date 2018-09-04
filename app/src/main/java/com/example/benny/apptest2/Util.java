@@ -35,8 +35,8 @@ import java.util.Random;
  */
 
 public class Util {
-    //public static final String baseConnection = "http://vps186949.vps.ovh.ca:8080";
-    public static final String baseConnection = "http://10.0.2.2:8080";
+    public static final String baseConnection = "http://vps186949.vps.ovh.ca:8080";
+    //public static final String baseConnection = "http://10.0.2.2:8080";
     public static final String registerConnection = baseConnection + "/register";
     public static final String loginConnection = baseConnection + "/login";
     public static final String exerciseConnection = baseConnection + "/exercise-info";

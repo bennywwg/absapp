@@ -39,7 +39,6 @@ public class SplashScreen2 extends FragmentActivity {
 
         frame = (FrameLayout) findViewById(R.id.splash_frame);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        frame.setLayoutParams(new ConstraintLayout.LayoutParams(frame.getWidth(), frame.getHeight() - navigation.getHeight()));
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         final FragmentTransaction swap = manager.beginTransaction();

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Abs Application</string>
+    <string name="app_name">Plate Beta</string>
 
     <string name="login_message">Login</string>
     <string name="login_color_valid">#00cc44</string>

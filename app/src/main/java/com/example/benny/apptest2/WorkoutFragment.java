@@ -88,7 +88,9 @@ public class WorkoutFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        if(splashScreen.workout != null) {
+        if (splashScreen.workout == null) {
+            generateWorkoutResumeButton.setVisibility(View.GONE);
+        } else {
             generateWorkoutResumeButton.setVisibility(View.VISIBLE);
         }
     }
@@ -155,10 +157,10 @@ public class WorkoutFragment extends Fragment {
             if(jsonGood()){
                 try {
                     splashScreen.workout = new WorkoutDay(response);
-                    generateWorkoutSpinner.setVisibility(View.INVISIBLE);
                     WorkoutFragment.this.getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            generateWorkoutSpinner.setVisibility(View.INVISIBLE);
                             WorkoutFragment.this.updateUI();
                         }
                     });
