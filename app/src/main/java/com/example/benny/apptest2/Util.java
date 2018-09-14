@@ -108,7 +108,15 @@ public class Util {
             boolean good = true;
             String loadedCredentials = Util.readFromFile(credentialsFilepath, ctx);
             if(!loadedCredentials.isEmpty()) {
-                String[] parts = loadedCredentials.split(" ");
+                String[] parts = new String[0];
+                for(int i = 0; i < loadedCredentials.length(); i++) {
+                    if(loadedCredentials.charAt(i) == ' ') {
+                        parts = new String[2];
+                        parts[0] = loadedCredentials.substring(0, i);
+                        parts[1] = loadedCredentials.substring(i + 1, loadedCredentials.length());
+                        break;
+                    }
+                }
                 if(parts.length == 2) {
                     Util.userEmail = parts[0];
                     Util.userPasswordEmailHash = parts[1];
@@ -134,6 +142,11 @@ public class Util {
     //
     //}
 
+    //NO backslashes
+    public static String JSONToString(JSONObject obj) {
+        return  obj.toString().replaceAll("\\\\", "");
+    }
+
     private static MessageDigest hasher = null;
     public static String hash(String val) {
         try {
@@ -142,10 +155,7 @@ public class Util {
                 hasher.reset();
                 byte[] rawBytes = val.getBytes("UTF-8");
                 hasher.update(rawBytes);
-                byte[] hashedBytes = hasher.digest();
-                byte[] based64Bytes = Base64.encode(hashedBytes, Base64.NO_WRAP);
-                String plainResult = new String(based64Bytes, "UTF-8");
-                return plainResult;
+                return Base64.encodeToString(hasher.digest(), Base64.NO_WRAP);
             } catch(UnsupportedEncodingException ex) {
                 return "can't encode";
             }

@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_plate_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SplashScreen">
+        <activity android:name=".SplashScreen"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,21 +21,27 @@
         </activity>
         <activity
             android:name=".RegisterPage"
-            android:parentActivityName=".SplashScreen" />
+            android:parentActivityName=".SplashScreen"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".LoginPage"
-            android:parentActivityName=".SplashScreen" />
+            android:parentActivityName=".SplashScreen"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Test_WorkoutView"
             android:label="@string/title_activity_test__workout_view"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SplashScreen2"
-            android:label="@string/title_activity_splash_screen2"></activity>
+            android:label="@string/title_activity_splash_screen2"
+            android:screenOrientation="portrait" ></activity>
+
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
     </application>
 
 </manifest>

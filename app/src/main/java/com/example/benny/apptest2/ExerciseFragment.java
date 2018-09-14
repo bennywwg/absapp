@@ -256,7 +256,7 @@ public class ExerciseFragment extends Fragment {
                         obj.put("reps", item.exercise.calibrationReps);
                         obj.put("weight", item.exercise.calibrationWeight);
                     } catch (Exception ex) { }
-                    data.message = obj.toString();
+                    data.message = Util.JSONToString(obj);
 
                     CalibrationPoster poster = new CalibrationPoster();
                     poster.owner = ExerciseFragment.this;
@@ -352,7 +352,7 @@ public class ExerciseFragment extends Fragment {
             response.put("email", Util.getUserCredentials(getContext()).first);
             response.put("passwordEmailHash", Util.getUserCredentials(getContext()).second);
             response.put("feedback", item.toJSON());
-            data.message = response.toString();
+            data.message = Util.JSONToString(response);
         } catch (Exception ex) { }
         POSTer p = new FeedbackPoster();
         p.execute(data);
